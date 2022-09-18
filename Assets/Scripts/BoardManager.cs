@@ -148,8 +148,10 @@ public class BoardManager : MonoBehaviour
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
         */
 
-        // Asset/Resources/Day1.txt
-        TextAsset levelAsset = Resources.Load("Day1") as TextAsset;
+        // Asset/Resources/day1.txt
+        string resourceName = string.Format("day{0}", level);
+
+        TextAsset levelAsset = Resources.Load(resourceName) as TextAsset;
         
         print(levelAsset.text);
 
@@ -165,33 +167,34 @@ public class BoardManager : MonoBehaviour
                 {
                     // Make the walls
                     GameObject wall = wallTiles[Random.Range(0, wallTiles.Length)];
-                    Instantiate(wall, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                    Instantiate(wall, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
                 }
                 else if (lines[i][j] == 'F')
                 {
                     // Food placement
-                    // LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
-                    // Instantiate(foodTiles, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                    GameObject food = foodTiles[Random.Range(0, foodTiles.Length)];
+                    Instantiate(food, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
 
                 }
                 else if (lines[i][j] == 'E')
                 {
                     // Enemy placement
-                    //LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-                    //Instantiate(wall, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                    GameObject enemy = enemyTiles[Random.Range(0, enemyTiles.Length)];
+                    Instantiate(enemy, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
 
                 }
                 else if (lines[i][j] == 'T')
                 {
                     // Exit placement
-                    Instantiate(exit, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                    Instantiate(exit, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
                 }
-                else
+
+                if (lines[i][j] != '\r')
                 {
                     // Floor placement?
-
+                    GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
+                    Instantiate(floor, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
                 }
-
 
             }
         }
