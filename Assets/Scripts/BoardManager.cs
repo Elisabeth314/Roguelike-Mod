@@ -195,9 +195,7 @@ public class BoardManager : MonoBehaviour
                     GameObject floor = floorTiles[Random.Range(0, floorTiles.Length)];
                     Instantiate(floor, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
                 }
-
             }
         }
     }
-
 }

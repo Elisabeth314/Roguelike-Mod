@@ -81,6 +81,12 @@ public class GameManager : MonoBehaviour
         //Get a reference to our text LevelText's text component by finding it by name and calling GetComponent.
         levelText = GameObject.Find("LevelText").GetComponent<Text>();
 
+        if (level == 4)
+        {
+            GameOver(true);
+            return;
+        }
+
         //Set the text of levelText to the string "Day" and append the current level number.
         levelText.text = "Day " + level;
 
@@ -95,7 +101,6 @@ public class GameManager : MonoBehaviour
 
         //Call the SetupScene function of the BoardManager script, pass it current level number.
         boardScript.SetupScene(level);
-
     }
 
 
@@ -131,16 +136,23 @@ public class GameManager : MonoBehaviour
 
 
     //GameOver is called when the player reaches 0 food points
-    public void GameOver()
+    public void GameOver(bool win = false)
     {
-        //Set levelText to display number of levels passed and game over message
-        levelText.text = "After " + level + " days, you starved.";
+        if (win == true)
+        {
+            levelText.text = "You Survived All " + (level - 1) + " Days!";
+        }
+        else
+        {
+            //Set levelText to display number of levels passed and game over message
+            levelText.text = "After " + level + " days, you starved.";
 
-        //Enable black background image gameObject.
-        levelImage.SetActive(true);
+            //Enable black background image gameObject.
+            levelImage.SetActive(true);
 
-        //Disable this GameManager.
-        enabled = false;
+            //Disable this GameManager.
+            enabled = false;
+        }
     }
 
     //Coroutine to move enemies in sequence.
