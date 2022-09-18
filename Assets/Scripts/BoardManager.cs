@@ -123,7 +123,7 @@ public class BoardManager : MonoBehaviour
     }
 
     //SetupScene initializes our level and calls the previous functions to lay out the game board
-    public void SetupScene(int level)
+    public bool SetupScene(int level)
     {
         /*
         //Creates the outer walls and floor.
@@ -152,7 +152,11 @@ public class BoardManager : MonoBehaviour
         string resourceName = string.Format("day{0}", level);
 
         TextAsset levelAsset = Resources.Load(resourceName) as TextAsset;
-        
+
+        if (levelAsset == null) {
+            return false;
+        }
+
         print(levelAsset.text);
 
         string[] lines = levelAsset.text.Split('\n');
@@ -163,28 +167,19 @@ public class BoardManager : MonoBehaviour
 
             for (int j = 0; j < lines[i].Length; j++)
             {
-                if (lines[i][j] == 'X')
-                {
+                if (lines[i][j] == 'X') {
                     // Make the walls
                     GameObject wall = wallTiles[Random.Range(0, wallTiles.Length)];
                     Instantiate(wall, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
-                }
-                else if (lines[i][j] == 'F')
-                {
+                } else if (lines[i][j] == 'F') {
                     // Food placement
                     GameObject food = foodTiles[Random.Range(0, foodTiles.Length)];
                     Instantiate(food, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
-
-                }
-                else if (lines[i][j] == 'E')
-                {
+                } else if (lines[i][j] == 'E') {
                     // Enemy placement
                     GameObject enemy = enemyTiles[Random.Range(0, enemyTiles.Length)];
                     Instantiate(enemy, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
-
-                }
-                else if (lines[i][j] == 'T')
-                {
+                } else if (lines[i][j] == 'T') {
                     // Exit placement
                     Instantiate(exit, new Vector3(j - 1, rows - i, 0f), Quaternion.identity);
                 }
@@ -197,5 +192,6 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+        return true;
     }
 }
