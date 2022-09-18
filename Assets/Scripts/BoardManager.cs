@@ -125,6 +125,7 @@ public class BoardManager : MonoBehaviour
     //SetupScene initializes our level and calls the previous functions to lay out the game board
     public void SetupScene(int level)
     {
+        /*
         //Creates the outer walls and floor.
         BoardSetup();
 
@@ -145,6 +146,55 @@ public class BoardManager : MonoBehaviour
 
         //Instantiate the exit tile in the upper right hand corner of our game board
         Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+        */
+
+        // Asset/Resources/Day1.txt
+        TextAsset levelAsset = Resources.Load("Day1") as TextAsset;
+        
+        print(levelAsset.text);
+
+        string[] lines = levelAsset.text.Split('\n');
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            print(lines[i]);
+
+            for (int j = 0; j < lines[i].Length; j++)
+            {
+                if (lines[i][j] == 'X')
+                {
+                    // Make the walls
+                    GameObject wall = wallTiles[Random.Range(0, wallTiles.Length)];
+                    Instantiate(wall, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                }
+                else if (lines[i][j] == 'F')
+                {
+                    // Food placement
+                    // LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
+                    // Instantiate(foodTiles, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+
+                }
+                else if (lines[i][j] == 'E')
+                {
+                    // Enemy placement
+                    //LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
+                    //Instantiate(wall, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+
+                }
+                else if (lines[i][j] == 'T')
+                {
+                    // Exit placement
+                    Instantiate(exit, new Vector3(j - 1, i - 1, 0f), Quaternion.identity);
+                }
+                else
+                {
+                    // Floor placement?
+
+                }
+
+
+            }
+        }
     }
 
 }
